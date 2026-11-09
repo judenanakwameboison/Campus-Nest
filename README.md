@@ -34,6 +34,13 @@ Log in as admin, open **Rooms**, and in the "All rooms" table use **Upload photo
 - Folder name different from `campusnest`? Change `BASE` in `config/db.php`.
 - MySQL root has a password? Change the password in `config/db.php`.
 
+## Render Docker deployment
+- Set the Render service's root directory to the repository root, where `Dockerfile` and `index.php` are located, and choose the Docker runtime.
+- The image uses PHP 8.2 with Apache. Apache listens on Render's `PORT` (default `10000`); the app's base path defaults to `/`.
+- Configure `DB_HOST`, `DB_PORT` (optional), `DB_NAME`, `DB_USER`, and `DB_PASSWORD` in Render to connect to your existing, network-accessible MySQL database. The XAMPP defaults remain in effect when these variables are not set. Do not use `localhost` for a database hosted outside the app container.
+- Keep database credentials in Render environment variables, not in the repository. The container does not install or replace MySQL and does not import or modify the database.
+- Uploaded room photos are written to `assets/img/rooms/`; configure persistent storage at that path in Render if uploads must survive container replacement.
+
 ## Folder map
 - `index.php`, `book.php`, `login.php` : public pages (guest)
 - `admin/` : dashboard, rooms, bookings, tenants, payments, maintenance, reports, audit log
